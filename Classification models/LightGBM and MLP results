@@ -6,3 +6,5 @@ MLP overall returns a performance of 0.73 accuracy, but obtains no precision, re
 
 LightGBM was able to obtain a performance of 0.76 accuracy, with precision, recall and accuracy scores for both classes. Class 0 has significantly higher scores 
 than class 1, which is likely due to its sparseness and generalizability, causing the model some difficulty in classifying its instances. 
+
+more info in the ipynb file
