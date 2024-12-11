@@ -6,7 +6,6 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import mean_squared_error, r2_score
-from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPRegressor
 from sklearn.preprocessing import StandardScaler
@@ -29,11 +28,11 @@ def feature_selection(X, y, count, seed):
     # Get feature importance
     feature_importance = pd.DataFrame({'Feature': X.columns, 'Importance': model.feature_importances_})
     feature_importance = feature_importance.sort_values(by='Importance', ascending=False)
-    print(feature_importance)
+    # print(feature_importance)
 
     # Select features with importance above a threshold
     selected_features = feature_importance[:count]["Feature"]
-    print("Selected Features:\n", selected_features)
+    # print("Selected Features:\n", selected_features)
     X = X[selected_features]
     return X
 
@@ -68,8 +67,8 @@ def zscoree(X, y_reg):
     y_reg = y_reg[~outliers]
 
     # 输出去除的异常值个数
-    print(f"Removed {np.sum(outliers)} outliers from the data.")
-    print(X.shape, y_reg.shape)
+    # print(f"Removed {np.sum(outliers)} outliers from the data.")
+    # print(X.shape, y_reg.shape)
     return X, y_reg
 
 
@@ -89,61 +88,36 @@ def linear_reg(X_train, X_test, y_train, y_test):
     mse = mean_squared_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
 
-    print("Mean Squared Error (MSE):", mse)
-    print("R-squared (R2):", r2)
+    # print("Mean Squared Error (MSE):", mse)
+    # print("R-squared (R2):", r2)
 
-    print("Model Coefficients:", model.coef_)
-    print("Model Intercept:", model.intercept_)
+    # print("Model Coefficients:", model.coef_)
+    # print("Model Intercept:", model.intercept_)
 
     mae = mean_absolute_error(y_test, y_pred)
-    print("Mean Absolute Error (MAE):", mae)
+    # print("Mean Absolute Error (MAE):", mae)
     return mse, r2, mae
 
 
 def my_SVM(X_train, X_test, y_train, y_test):
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    scaler_X = StandardScaler()
+    X_train_scaled = scaler_X.fit_transform(X_train)
+    X_test_scaled = scaler_X.transform(X_test)
 
-    # Define the parameter grid
-    param_grid = {
-        'kernel': ['rbf', 'poly'],  # Kernels to try
-        'C': [0.1, 1, 10, 100],  # Regularization parameter
-        'epsilon': [0.01, 0.1, 0.5, 1],  # Epsilon in the epsilon-SVR model
-        'gamma': ['scale', 'auto', 0.01, 0.1, 1]  # Kernel coefficient (for 'rbf', 'poly', 'sigmoid')
-    }
+    model_rbf = SVR(kernel='rbf', C=10.0, epsilon=0.01, gamma=0.01)
+    model_rbf.fit(X_train_scaled, y_train)
 
-    # Grid search
-    grid_search = GridSearchCV(
-        SVR(),
-        param_grid,
-        cv=5,  # 5-fold cross-validation
-        scoring='r2',  # Optimize for R-squared
-        verbose=1,  # Show progress
-        n_jobs=-1  # Use all available processors
-    )
-    grid_search.fit(X_train_scaled, y_train)
+    y_pred_rbf = model_rbf.predict(X_test_scaled)
 
-    # Best hyperparameters and their performance
-    best_model = grid_search.best_estimator_
-    print("Best Parameters:", grid_search.best_params_)
-    print("Best Cross-Validation R2 Score:", grid_search.best_score_)
-
-    # Evaluate on the test set
-    y_pred = best_model.predict(X_test_scaled)
-    mse = mean_squared_error(y_test, y_pred)
-    r2 = r2_score(y_test, y_pred)
-    mae = mean_absolute_error(y_test, y_pred)
-
-    print("Test Mean Squared Error (MSE):", mse)
-    print("Test R-squared (R2):", r2)
-    print('Test Mean Absolute Error (MAE):', mae)
+    mse = mean_squared_error(y_test, y_pred_rbf)
+    r2 = r2_score(y_test, y_pred_rbf)
+    mae = mean_absolute_error(y_test, y_pred_rbf)
     return mse, r2, mae
 
 
-def my_rf(X_train, X_test, y_train, y_test):
+def my_rf(X_train, X_test, y_train, y_test, seed):
     # Initialize the Random Forest Regressor
-    rf = RandomForestRegressor(n_estimators=100, random_state=42)
+    rf = RandomForestRegressor(n_estimators=100, random_state=seed)
 
     # Train the model on the training data
     rf.fit(X_train, y_train)
@@ -155,9 +129,9 @@ def my_rf(X_train, X_test, y_train, y_test):
     mse = mean_squared_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
     mae = mean_absolute_error(y_test, y_pred)
-    print(f"Mean Squared Error: {mse:.2f}")
-    print(f"R-squared: {r2:.2f}")
-    print(f"Mean Absolute Error: {mae:.2f}")
+    # print(f"Mean Squared Error: {mse:.2f}")
+    # print(f"R-squared: {r2:.2f}")
+    # print(f"Mean Absolute Error: {mae:.2f}")
     return mse, r2, mae
 
 
@@ -175,9 +149,9 @@ def my_mlp(X_train, X_test, y_train, y_test):
     mse = mean_squared_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
     mae = mean_absolute_error(y_test, y_pred)
-    print(f"MLPRegressor Mean Squared Error: {mse}")
-    print(f"MLPRegressor R^2 Score: {r2}")
-    print(f"MLPRegressor MAE: {mae}")
+    # print(f"MLPRegressor Mean Squared Error: {mse}")
+    # print(f"MLPRegressor R^2 Score: {r2}")
+    # print(f"MLPRegressor MAE: {mae}")
     return mse, r2, mae
 
 
@@ -196,7 +170,7 @@ mae_list['linear'] = []
 mae_list['SVM'] = []
 mae_list['RF'] = []
 mae_list['MLP'] = []
-for seed in tqdm(range(10, 20)):
+for seed in tqdm(range(1000)):
     X, y = load_data('../output.csv')
     X = feature_selection(X, y, 30, seed)
     X, y = zscoree(X, y)
@@ -212,7 +186,7 @@ for seed in tqdm(range(10, 20)):
     r2_list['SVM'].append(r2)
     mae_list['SVM'].append(mae)
 
-    mse, r2, mae = my_rf(X_train, X_test, y_train, y_test)
+    mse, r2, mae = my_rf(X_train, X_test, y_train, y_test, seed)
     mse_list['RF'].append(mse)
     r2_list['RF'].append(r2)
     mae_list['RF'].append(mae)
@@ -252,3 +226,25 @@ visualize(mae_list['linear'], 'Linear mae')
 visualize(mae_list['SVM'], 'SVM mae')
 visualize(mae_list['RF'], 'RF mae')
 visualize(mae_list['MLP'], 'MLP mae')
+
+
+def find_lowest(l):
+    lowest = min(l)
+    idx = l.index(lowest)
+    return lowest, idx
+
+
+def find_largest(l):
+    largest = max(l)
+    idx = l.index(largest)
+    return largest, idx
+
+
+print(f'best mae for linear: {find_lowest(mae_list['linear'])}')
+print(f'best mae for SVM: {find_lowest(mae_list['SVM'])}')
+print(f'best mae for RF: {find_lowest(mae_list['RF'])}')
+print(f'best mae for MLP: {find_lowest(mae_list['MLP'])}')
+print(f'best r2 for linear: {find_largest(r2_list['linear'])}')
+print(f'best r2 for SVM: {find_largest(r2_list['SVM'])}')
+print(f'best r2 for RF: {find_largest(r2_list['RF'])}')
+print(f'best r2 for MLP: {find_largest(r2_list['MLP'])}')
