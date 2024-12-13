@@ -1,0 +1,70 @@
+
+SEED = 825
+gradient boost = accuracy: 0.85, auc: 0.8954248366013072
+svm = accuracy: 0.8125, auc: 0.9206349206349206
+random forest = accuracy: 0.9, auc: 0.9187675070028012
+mlp = accuracy: 0.9375, auc: 0.9243697478991597
+lightgbm = accuracy: 0.925, auc: 0.9257703081232493
+
+
+
+
+SEED = 0
+gradient boost = accuracy: 0.8375, auc: 0.8688141923436041
+svm = accuracy: 0.7875, auc: 0.8888888888888888
+random forest = accuracy: 0.825, auc: 0.8468720821661998
+mlp = accuracy: 0.8375, auc: 0.892623716153128
+lightgbm = accuracy: 0.8375, auc: 0.858076563958917
+
+
+
+
+SEED = 1
+gradient boost = accuracy: 0.825, auc: 0.8888888888888888
+svm = accuracy: 0.875, auc: 0.9197012138188608
+random forest = accuracy: 0.8375, auc: 0.8898225957049486
+mlp = accuracy: 0.9, auc: 0.9169000933706816
+lightgbm = accuracy: 0.8625, auc: 0.8907563025210083
+
+
+
+
+SEED = 2
+gradient boost = accuracy: 0.8, auc: 0.8646125116713351
+svm = accuracy: 0.825, auc: 0.9635854341736695
+random forest = accuracy: 0.8625, auc: 0.9000933706816059
+mlp = accuracy: 0.9125, auc: 0.9626517273576098
+lightgbm = accuracy: 0.875, auc: 0.8683473389355741
+
+
+
+
+SEED = 42
+gradient boost = accuracy: 0.7875, auc: 0.8426704014939309
+svm = accuracy: 0.8375, auc: 0.8954248366013071
+random forest = accuracy: 0.8375, auc: 0.8366013071895425
+mlp = accuracy: 0.825, auc: 0.8944911297852474
+lightgbm = accuracy: 0.825, auc: 0.8408029878618114
+
+
+
+
+SEED = 10
+gradient boost = accuracy: 0.825, auc: 0.8683473389355743
+svm = accuracy: 0.8625, auc: 0.9056956115779644
+random forest = accuracy: 0.85, auc: 0.8795518207282913
+mlp = accuracy: 0.875, auc: 0.9066293183940243
+lightgbm = accuracy: 0.825, auc: 0.8888888888888887
+
+
+
+
+SEED = 100
+gradient boost = accuracy: 0.8125, auc: 0.8398692810457516
+svm = accuracy: 0.8625, auc: 0.8720821661998133
+random forest = accuracy: 0.8375, auc: 0.8492063492063493
+mlp = accuracy: 0.875, auc: 0.8702147525676937
+lightgbm = accuracy: 0.875, auc: 0.8711484593837536
+
+
+
